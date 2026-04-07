@@ -5,8 +5,7 @@
 ### 언어 및 런타임
 - **TypeScript** (strict mode)
 - **Node.js ES2022** (ESM modules)
-- `.ai-review/` 내부에 독립적인 `tsconfig.json` 사용
-- 루트 프로젝트(React/Vite)의 TS 설정과 분리
+- 프로젝트 루트에 `tsconfig.json` 위치 (target: ES2022, module: NodeNext)
 
 ### 코드 스타일
 - 함수형 스타일 우선, 클래스는 Provider 추상화 등 필요한 곳에만 사용
@@ -69,7 +68,7 @@ dispatcher.ts
 
 ## 설정 파일 참조
 
-- 설정 파일: 프로젝트 루트 `.ai-review.yml`
+- 설정 파일: 사용자 리포 루트 `.ai-review.yml` (이 리포의 `example.ai-review.yml` 참고)
 - 설정 스키마: `src/types.ts`의 `AppConfig` 인터페이스
 - 에이전트별 provider/model 독립 지정 가능
 - `exclude_files`로 리뷰 제외 파일 패턴 지정
