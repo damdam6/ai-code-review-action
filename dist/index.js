@@ -45135,7 +45135,7 @@ function loadConfig(configPath) {
 }
 function getAiReviewDir() {
     if (process.env.GITHUB_ACTION_PATH) {
-        return process.env.GITHUB_ACTION_PATH;
+        return (0,external_node_path_namespaceObject.resolve)(process.env.GITHUB_ACTION_PATH);
     }
     const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
     return (0,external_node_path_namespaceObject.resolve)(workspace, '.ai-review');
