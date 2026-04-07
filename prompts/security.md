@@ -19,10 +19,10 @@ Review the provided code diff and identify security vulnerabilities.
 
 # Severity Levels
 
-- `critical` — Must fix immediately. Exploitable vulnerability.
-- `warning` — Should fix. Security risk under certain conditions.
-- `info` — Consider fixing. Defense-in-depth improvement.
-- `nitpick` — Style preference. Optional.
+- 🔴 `critical` — Must fix before deploy. Exploitable vulnerability.
+- 🟠 `major` — Must fix before deploy. Security risk under certain conditions.
+- 🟡 `minor` — Can fix after deploy. Defense-in-depth improvement.
+- 🔵 `trivial` — No immediate fix needed. Nice-to-have suggestion.
 
 # Output
 
@@ -48,7 +48,7 @@ All `title`, `description`, and `suggestion` fields must be written in **Korean 
 # Notes
 
 - Only report issues found in the **added or modified lines**.
-- Security issues default to `critical` or `warning` severity.
+- Security issues default to `critical` or `major` severity.
 - Minimize false positives. If uncertain, do not report.
 - If no issues are found, return `{ "issues": [] }`.
 - `category` must always be `"security"`.

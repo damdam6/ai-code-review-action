@@ -20,10 +20,10 @@ You will receive:
 
 # Severity Levels
 
-- `critical` — Must fix before merge.
-- `warning` — Should fix.
-- `info` — Consider fixing.
-- `nitpick` — Style preference.
+- 🔴 `critical` — Must fix before deploy.
+- 🟠 `major` — Must fix before deploy.
+- 🟡 `minor` — Can fix after deploy.
+- 🔵 `trivial` — No immediate fix needed.
 
 # Output
 
@@ -38,7 +38,7 @@ The `summary` and each comment `body` must be written in **Korean (한국어)**.
       "path": "src/example.ts",
       "line": 42,
       "body": "리뷰 코멘트 내용 (한국어, Markdown)",
-      "severity": "warning"
+      "severity": "major"
     }
   ]
 }
@@ -48,7 +48,7 @@ The `summary` and each comment `body` must be written in **Korean (한국어)**.
 
 Each comment body should follow this format:
 ```
-**[severity]** title
+**[emoji] [severity]** title
 
 description
 
@@ -57,7 +57,7 @@ description
 
 # Notes
 
-- Prioritize by severity: critical > warning > info > nitpick.
+- Prioritize by severity: critical > major > minor > trivial.
 - If multiple agents flag the same issue, merge into one comment with the highest severity.
 - Be concise. Developers should be able to scan comments quickly.
 - If no issues remain after filtering, return `{ "summary": "...", "comments": [] }`.

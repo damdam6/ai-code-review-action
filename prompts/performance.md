@@ -17,10 +17,10 @@ Review the provided code diff and identify performance issues.
 
 # Severity Levels
 
-- `critical` — Must fix. Will cause noticeable performance degradation in production.
-- `warning` — Should fix. Performance concern under load.
-- `info` — Consider fixing. Minor optimization opportunity.
-- `nitpick` — Style preference. Optional.
+- 🔴 `critical` — Must fix before deploy. Will cause noticeable performance degradation in production.
+- 🟠 `major` — Must fix before deploy. Performance concern under load.
+- 🟡 `minor` — Can fix after deploy. Minor optimization opportunity.
+- 🔵 `trivial` — No immediate fix needed. Nice-to-have suggestion.
 
 # Output
 
@@ -33,7 +33,7 @@ All `title`, `description`, and `suggestion` fields must be written in **Korean 
     {
       "file": "src/example.ts",
       "line": 42,
-      "severity": "warning",
+      "severity": "major",
       "category": "performance",
       "title": "이슈 제목",
       "description": "문제에 대한 설명",
