@@ -68,7 +68,7 @@ dispatcher.ts
 
 ## 설정 파일 참조
 
-- 설정 파일: 사용자 리포 루트 `.ai-review.yml` (이 리포의 `example.ai-review.yml` 참고)
+- 설정 파일: 사용자 리포 루트 `ai-review-agents.yml` (이 리포의 `templates/ai-review-agents.yml` 참고)
 - 설정 스키마: `src/types.ts`의 `AppConfig` 인터페이스
 - 에이전트별 provider/model 독립 지정 가능
 - `exclude_files`로 리뷰 제외 파일 패턴 지정

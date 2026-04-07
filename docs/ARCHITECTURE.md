@@ -67,7 +67,7 @@ AI 에이전트 구현.
 - `responder.ts` - @bot 질문 답변
 
 ### Config (`src/config.ts`)
-`.ai-review.yml` 설정 파일 로드 및 검증.
+`ai-review-agents.yml` 설정 파일 로드 및 검증.
 
 ### Dispatcher (`src/dispatcher.ts`)
 GitHub Actions 진입점. 이벤트 타입별 라우팅.

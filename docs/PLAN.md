@@ -16,7 +16,7 @@ ai-code-review-action/
 ├── src/
 │   ├── dispatcher.ts              # 이벤트 라우팅 진입점
 │   ├── types.ts                   # 공유 인터페이스 정의
-│   ├── config.ts                  # .ai-review.yml 로더/파서
+│   ├── config.ts                  # ai-review-agents.yml 로더/파서
 │   ├── agents/
 │   │   ├── reviewers/
 │   │   │   ├── quality.ts         # 코드 품질 검토
@@ -51,13 +51,14 @@ ai-code-review-action/
 │   ├── ARCHITECTURE.md            # 아키텍처 설명 & 다이어그램
 │   ├── setup-guide.md             # 설정 가이드
 │   └── prompt-guide.md            # 프롬프트 커스터마이즈 가이드
-├── workflow-templates/
-│   └── ai-review.yml              # GitHub Actions 워크플로우 템플릿
+├── templates/
+│   ├── ai-review-agents.yml       # 에이전트 모델 설정 파일 템플릿
+│   └── sample-workflow.yml        # GitHub Actions 워크플로우 템플릿
 ├── action.yml                     # GitHub Actions composite action 정의
 ├── package.json
 ├── tsconfig.json                  # Node.js용 TS 설정 (ES2022, NodeNext)
 ├── vitest.config.ts               # 테스트 설정
-├── example.ai-review.yml          # 설정 파일 예제 (사용자 리포에서 .ai-review.yml로 사용)
+├── .gitignore
 └── README.md
 ```
 
@@ -85,7 +86,7 @@ ai-code-review-action/
    - `kimi.ts` (Moonshot AI, OpenAI 호환 SDK 사용), `anthropic.ts`, `google.ts`: 각 SDK 래퍼
 
 4. **설정 파일 파서 (#10)**
-   - `config.ts`: 루트의 `.ai-review.yml` 로드, 검증, 기본값 처리, 프롬프트 파일 로드
+   - `config.ts`: 루트의 `ai-review-agents.yml` 로드, 검증, 기본값 처리, 프롬프트 파일 로드
 
 ### Phase 2: GitHub API 연동 (Epic 2, #11-#14)
 
@@ -131,7 +132,7 @@ ai-code-review-action/
 
 | 항목                  | 결정                                              | 이유                         |
 | --------------------- | ------------------------------------------------- | ---------------------------- |
-| 설정 파일 위치        | 프로젝트 루트 `.ai-review.yml`                    | .eslintrc 등과 동일 컨벤션   |
+| 설정 파일 위치        | 프로젝트 루트 `ai-review-agents.yml`              | 에이전트 모델 설정 역할 반영  |
 | GitHub Actions 진입점 | `action.yml` composite action (`node dist/dispatcher.js`) | TS 빌드 후 JS 실행           |
 | 에이전트 실행 방식    | Quality/Performance/Security는 `Promise.all` 병렬 | 속도 최적화                  |
 | LLM 출력 파싱         | 코드펜스 제거 + JSON.parse + fallback regex       | LLM 출력 불안정성 대응       |

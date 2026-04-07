@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import yaml from 'js-yaml';
 import type { AgentConfig, AppConfig } from './types.js';
 
-const CONFIG_FILENAME = '.ai-review.yml';
+const CONFIG_FILENAME = 'ai-review-agents.yml';
 
 const VALID_PROVIDERS = ['kimi', 'anthropic', 'google'] as const;
 
