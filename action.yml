@@ -15,11 +15,6 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-    - run: cd ${{ github.action_path }} && npm ci && npm run build
-      shell: bash
     - run: node ${{ github.action_path }}/dist/dispatcher.js
       shell: bash
       env:
