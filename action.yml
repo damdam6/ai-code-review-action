@@ -1,0 +1,29 @@
+name: 'AI Code Review'
+description: 'Multi-agent AI code review for GitHub PRs'
+
+inputs:
+  anthropic-api-key:
+    description: 'Anthropic API key'
+    required: false
+  google-api-key:
+    description: 'Google API key'
+    required: false
+  kimi-api-key:
+    description: 'Kimi API key'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - run: cd ${{ github.action_path }} && npm ci && npm run build
+      shell: bash
+    - run: node ${{ github.action_path }}/dist/dispatcher.js
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
+        GOOGLE_API_KEY: ${{ inputs.google-api-key }}
+        KIMI_API_KEY: ${{ inputs.kimi-api-key }}
