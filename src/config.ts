@@ -131,6 +131,9 @@ export function loadConfig(configPath?: string): AppConfig {
 }
 
 export function getAiReviewDir(): string {
+  if (process.env.GITHUB_ACTION_PATH) {
+    return process.env.GITHUB_ACTION_PATH;
+  }
   const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
   return resolve(workspace, '.ai-review');
 }
