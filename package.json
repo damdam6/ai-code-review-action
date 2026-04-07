@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "AI-powered code review system for GitHub PRs",
   "type": "module",
-  "main": "dist/dispatcher.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "tsc && ncc build .build/dispatcher.js -o dist",
-    "start": "node dist/dispatcher.js",
+    "build": "rm -rf .build && tsc && ncc build .build/dispatcher.js -o dist && rm -rf .build",
+    "start": "node dist/index.js",
     "test": "vitest run",
     "test:watch": "vitest"
   },
