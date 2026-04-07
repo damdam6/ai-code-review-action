@@ -15,7 +15,11 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - run: node ${{ github.action_path }}/dist/index.js
+    - run: |
+        if [ -n "$ANTHROPIC_API_KEY" ]; then echo "::add-mask::$ANTHROPIC_API_KEY"; fi
+        if [ -n "$GOOGLE_API_KEY" ]; then echo "::add-mask::$GOOGLE_API_KEY"; fi
+        if [ -n "$KIMI_API_KEY" ]; then echo "::add-mask::$KIMI_API_KEY"; fi
+        node ${{ github.action_path }}/dist/index.js
       shell: bash
       env:
         GITHUB_TOKEN: ${{ github.token }}
