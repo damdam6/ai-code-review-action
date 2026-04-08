@@ -11,6 +11,12 @@ inputs:
   kimi-api-key:
     description: 'Kimi API key'
     required: false
+  deepseek-api-key:
+    description: 'DeepSeek API key'
+    required: false
+  openai-api-key:
+    description: 'OpenAI API key'
+    required: false
 
 runs:
   using: 'composite'
@@ -19,6 +25,8 @@ runs:
         if [ -n "$ANTHROPIC_API_KEY" ]; then echo "::add-mask::$ANTHROPIC_API_KEY"; fi
         if [ -n "$GOOGLE_API_KEY" ]; then echo "::add-mask::$GOOGLE_API_KEY"; fi
         if [ -n "$KIMI_API_KEY" ]; then echo "::add-mask::$KIMI_API_KEY"; fi
+        if [ -n "$DEEPSEEK_API_KEY" ]; then echo "::add-mask::$DEEPSEEK_API_KEY"; fi
+        if [ -n "$OPENAI_API_KEY" ]; then echo "::add-mask::$OPENAI_API_KEY"; fi
         node ${{ github.action_path }}/dist/index.js
       shell: bash
       env:
@@ -26,3 +34,5 @@ runs:
         ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
         GOOGLE_API_KEY: ${{ inputs.google-api-key }}
         KIMI_API_KEY: ${{ inputs.kimi-api-key }}
+        DEEPSEEK_API_KEY: ${{ inputs.deepseek-api-key }}
+        OPENAI_API_KEY: ${{ inputs.openai-api-key }}

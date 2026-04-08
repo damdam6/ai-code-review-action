@@ -45029,7 +45029,7 @@ var jsYaml = {
 
 
 const CONFIG_FILENAME = 'ai-review-agents.yml';
-const VALID_PROVIDERS = ['kimi', 'anthropic', 'google'];
+const VALID_PROVIDERS = ['kimi', 'anthropic', 'google', 'deepseek', 'openai'];
 const DEFAULT_OPTIONS = {
     language: 'ko',
     max_comments_per_review: 20,
@@ -58239,7 +58239,66 @@ const createGoogle = (apiKey) => {
     };
 };
 //# sourceMappingURL=google.js.map
+;// CONCATENATED MODULE: ./.build/providers/deepseek.js
+
+
+const DEEPSEEK_BASE_URL = 'https://api.deepseek.com';
+const createDeepseek = (apiKey) => {
+    if (!apiKey) {
+        throw new Error('API key is required for DeepSeek');
+    }
+    const client = new openai({ apiKey, baseURL: DEEPSEEK_BASE_URL });
+    return {
+        chat: withRetry(async (params) => {
+            const response = await client.chat.completions.create({
+                model: params.model,
+                messages: [
+                    { role: 'system', content: params.systemPrompt },
+                    { role: 'user', content: params.userMessage },
+                ],
+                temperature: params.temperature ?? 0.3,
+                max_tokens: params.maxTokens ?? 4096,
+            });
+            const content = response.choices[0]?.message?.content;
+            if (!content) {
+                throw new Error('DeepSeek returned empty response');
+            }
+            return content;
+        }),
+    };
+};
+//# sourceMappingURL=deepseek.js.map
+;// CONCATENATED MODULE: ./.build/providers/openai.js
+
+
+const createOpenAI = (apiKey) => {
+    if (!apiKey) {
+        throw new Error('API key is required for OpenAI');
+    }
+    const client = new openai({ apiKey });
+    return {
+        chat: withRetry(async (params) => {
+            const response = await client.chat.completions.create({
+                model: params.model,
+                messages: [
+                    { role: 'system', content: params.systemPrompt },
+                    { role: 'user', content: params.userMessage },
+                ],
+                temperature: params.temperature ?? 0.3,
+                max_tokens: params.maxTokens ?? 4096,
+            });
+            const content = response.choices[0]?.message?.content;
+            if (!content) {
+                throw new Error('OpenAI returned empty response');
+            }
+            return content;
+        }),
+    };
+};
+//# sourceMappingURL=openai.js.map
 ;// CONCATENATED MODULE: ./.build/providers/base.js
+
+
 
 
 
@@ -58297,6 +58356,10 @@ const createProvider = (provider, apiKey) => {
             return createAnthropic(apiKey);
         case "google":
             return createGoogle(apiKey);
+        case "deepseek":
+            return createDeepseek(apiKey);
+        case "openai":
+            return createOpenAI(apiKey);
         default:
             throw new Error(`Unknown provider: ${provider}`);
     }
@@ -61281,6 +61344,8 @@ const API_KEY_MAP = {
     kimi: 'KIMI_API_KEY',
     anthropic: 'ANTHROPIC_API_KEY',
     google: 'GOOGLE_API_KEY',
+    deepseek: 'DEEPSEEK_API_KEY',
+    openai: 'OPENAI_API_KEY',
 };
 const getApiKey = (provider) => {
     const envName = API_KEY_MAP[provider];

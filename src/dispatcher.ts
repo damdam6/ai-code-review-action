@@ -32,6 +32,8 @@ const API_KEY_MAP: Record<string, string> = {
   kimi: 'KIMI_API_KEY',
   anthropic: 'ANTHROPIC_API_KEY',
   google: 'GOOGLE_API_KEY',
+  deepseek: 'DEEPSEEK_API_KEY',
+  openai: 'OPENAI_API_KEY',
 };
 
 const getApiKey = (provider: string): string => {

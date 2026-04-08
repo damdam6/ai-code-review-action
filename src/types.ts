@@ -121,7 +121,7 @@ export interface ReviewThread {
 // ============================================
 
 export interface AgentConfig {
-  provider: 'kimi' | 'anthropic' | 'google';
+  provider: 'kimi' | 'anthropic' | 'google' | 'deepseek' | 'openai';
   model: string;
   prompt_file: string;
   temperature?: number;
