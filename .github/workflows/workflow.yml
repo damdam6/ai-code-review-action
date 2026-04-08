@@ -32,3 +32,5 @@ jobs:
           anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
           google-api-key: ${{ secrets.GOOGLE_API_KEY }}
           kimi-api-key: ${{ secrets.KIMI_API_KEY }}
+          deepseek-api-key: ${{ secrets.DEEPSEEK_API_KEY }}
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
