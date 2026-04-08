@@ -1,7 +1,7 @@
 import type { LLMChatParams, LLMProvider } from "../types.js";
-import { createKimi } from "./kimi.js";
 import { createAnthropic } from "./anthropic.js";
 import { createGoogle } from "./google.js";
+import { createOpenAICompatible } from "./openai-compatible.js";
 
 const MAX_RETRIES = 3;
 const BASE_DELAY_MS = 1000;
@@ -64,7 +64,7 @@ export const withRetry = (chatFn: ChatFn): ChatFn => {
   };
 };
 
-export type ProviderName = "kimi" | "anthropic" | "google";
+export type ProviderName = "kimi" | "anthropic" | "google" | "deepseek" | "openai";
 
 export const createProvider = (
   provider: ProviderName,
@@ -72,7 +72,11 @@ export const createProvider = (
 ): LLMProvider => {
   switch (provider) {
     case "kimi":
-      return createKimi(apiKey);
+      return createOpenAICompatible(apiKey, { name: "Kimi", baseURL: "https://api.moonshot.ai/v1" });
+    case "deepseek":
+      return createOpenAICompatible(apiKey, { name: "DeepSeek", baseURL: "https://api.deepseek.com" });
+    case "openai":
+      return createOpenAICompatible(apiKey, { name: "OpenAI", useMaxCompletionTokens: true });
     case "anthropic":
       return createAnthropic(apiKey);
     case "google":

@@ -1,16 +1,16 @@
 agents:
   quality:
-    provider: anthropic
-    model: claude-sonnet-4-6
+    provider: deepseek
+    model: deepseek-reasoner
     prompt_file: prompts/quality.md
   performance:
-    provider: kimi
-    model: kimi-k2.5
+    provider: deepseek
+    model: deepseek-reasoner
     prompt_file: prompts/performance.md
     temperature: 1
   security:
-    provider: anthropic
-    model: claude-sonnet-4-6
+    provider: openai
+    model: gpt-5.4
     prompt_file: prompts/security.md
   orchestrator:
     provider: google
@@ -18,13 +18,13 @@ agents:
     prompt_file: prompts/orchestrator.md
     max_tokens: 8192
   resolver:
-    provider: google
-    model: gemini-3.1-flash-lite-preview
+    provider: openai
+    model: gpt-5.4-mini
     prompt_file: prompts/resolver.md
     confidence_threshold: 0.8
   responder:
     provider: anthropic
-    model: claude-sonnet-4-6
+    model: claude-opus-4-6
     prompt_file: prompts/responder.md
 
 triggers:
