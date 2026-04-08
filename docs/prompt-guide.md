@@ -98,9 +98,9 @@ All `title`, `description`, and `suggestion` fields must be written in **Japanes
 # Severity Levels
 
 - `critical` — 머지 전 반드시 수정. 프로덕션 장애 가능성.
-- `warning` — 수정 권장. 유지보수성 또는 안정성에 영향.
-- `info` — 참고 사항. 개선 기회.
-- `nitpick` — 스타일 선호. 선택적.
+- `major` — 수정 권장. 유지보수성 또는 안정성에 영향.
+- `minor` — 참고 사항. 개선 기회.
+- `trivial` — 스타일 선호. 선택적.
 ```
 
 기준을 엄격하게 하려면 각 레벨의 설명을 강화하고, 느슨하게 하려면 완화합니다.
@@ -115,7 +115,7 @@ All `title`, `description`, and `suggestion` fields must be written in **Japanes
     {
       "file": "파일 경로",
       "line": 42,
-      "severity": "critical | warning | info | nitpick",
+      "severity": "critical | major | minor | trivial",
       "category": "quality | performance | security",
       "title": "이슈 제목",
       "description": "문제 설명",
@@ -135,7 +135,7 @@ Orchestrator 출력 스키마:
       "path": "파일 경로",
       "line": 42,
       "body": "코멘트 내용 (Markdown)",
-      "severity": "warning"
+      "severity": "major"
     }
   ]
 }

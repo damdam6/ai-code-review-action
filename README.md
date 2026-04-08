@@ -1,6 +1,6 @@
 # AI Code Review
 
-GitHub Actions 기반 AI 코드리뷰 시스템. PR이 열리면 4개 전문 에이전트가 병렬로 코드를 검토하고, 결과를 종합하여 inline review comment를 자동 게시합니다.
+GitHub Actions 기반 AI 코드리뷰 시스템. PR이 열리면 3개 전문 에이전트가 병렬로 코드를 검토하고, Orchestrator가 결과를 종합하여 inline review comment를 자동 게시합니다.
 
 ## 아키텍처
 
@@ -34,8 +34,9 @@ agents:
     prompt_file: prompts/quality.md
   performance:
     provider: kimi
-    model: kimi-k2.5
+    model: kimi-k2-thinking
     prompt_file: prompts/performance.md
+    temperature: 1
   security:
     provider: anthropic
     model: claude-opus-4-6
@@ -44,10 +45,12 @@ agents:
     provider: google
     model: gemini-2.5-flash
     prompt_file: prompts/orchestrator.md
+    max_tokens: 8192
   resolver:
-    provider: kimi
-    model: kimi-k2.5
+    provider: anthropic
+    model: claude-sonnet-4-6
     prompt_file: prompts/resolver.md
+    temperature: 1
     confidence_threshold: 0.8
   responder:
     provider: anthropic
@@ -68,11 +71,13 @@ options:
 gh secret set KIMI_API_KEY --body "your-kimi-api-key"
 gh secret set ANTHROPIC_API_KEY --body "your-anthropic-api-key"
 gh secret set GOOGLE_API_KEY --body "your-google-api-key"
+gh secret set DEEPSEEK_API_KEY --body "your-deepseek-api-key"
+gh secret set OPENAI_API_KEY --body "your-openai-api-key"
 ```
 
 ### 3. GitHub Actions 워크플로우 추가
 
-`templates/sample-workflow.yml`을 `.github/workflows/ai-review.yml`로 복사합니다.
+`templates/workflow.yml`을 `.github/workflows/ai-review.yml`로 복사합니다.
 
 ### 4. PR 열어서 테스트
 
@@ -90,11 +95,13 @@ PR을 열면 자동으로 AI 리뷰가 실행됩니다.
 
 ## 지원 Provider
 
-| Provider | 환경변수 | 모델 예시 |
-|----------|---------|----------|
-| Anthropic | `ANTHROPIC_API_KEY` | claude-sonnet-4-6, claude-opus-4-6, claude-haiku-4-5 |
-| Kimi (Moonshot) | `KIMI_API_KEY` | kimi-k2.5 |
-| Google | `GOOGLE_API_KEY` | gemini-2.5-flash, gemini-2.5-pro |
+| Provider | 환경변수 | 모델 예시 | 비고 |
+|----------|---------|----------|------|
+| Anthropic | `ANTHROPIC_API_KEY` | claude-sonnet-4-6, claude-opus-4-6 | 네이티브 SDK |
+| Google | `GOOGLE_API_KEY` | gemini-2.5-flash, gemini-2.5-pro | 네이티브 SDK |
+| Kimi (Moonshot) | `KIMI_API_KEY` | kimi-k2.5, kimi-k2-thinking | OpenAI 호환 |
+| DeepSeek | `DEEPSEEK_API_KEY` | deepseek-chat, deepseek-reasoner | OpenAI 호환 |
+| OpenAI | `OPENAI_API_KEY` | gpt-4o, gpt-4o-mini | OpenAI 호환 |
 
 ## 상세 문서
 
