@@ -46,9 +46,9 @@ GitHub webhook events
 ## 모듈 구조
 
 ### Providers (`src/providers/`)
-LLM API 추상화 레이어. OpenAI, Anthropic, Google을 공통 인터페이스로 래핑.
+LLM API 추상화 레이어. Kimi (Moonshot AI), Anthropic, Google을 공통 인터페이스로 래핑.
 - `base.ts` - 추상 클래스 + retry 로직 + ProviderFactory
-- `openai.ts` / `anthropic.ts` / `google.ts` - 각 SDK 래퍼
+- `kimi.ts` / `anthropic.ts` / `google.ts` - 각 SDK 래퍼
 
 ### GitHub (`src/github/`)
 GitHub API 연동 모듈.
@@ -61,12 +61,13 @@ AI 에이전트 구현.
 - `reviewers/quality.ts` - 코드 품질 검토 (네이밍, 구조, 중복, 에러 핸들링)
 - `reviewers/performance.ts` - 성능 검토 (복잡도, 메모리, N+1, 캐싱)
 - `reviewers/security.ts` - 보안 검토 (인젝션, XSS, 시크릿 노출)
+- `reviewers/utils.ts` - 공통 리뷰 유틸리티 (JSON 파싱, diff 포맷, 프롬프트 로드)
 - `orchestrator.ts` - 결과 병합, 중복 제거, false positive 필터링
 - `resolver.ts` - 수정된 코멘트 자동 resolve
 - `responder.ts` - @bot 질문 답변
 
 ### Config (`src/config.ts`)
-`.ai-review.yml` 설정 파일 로드 및 검증.
+`ai-review-agents.yml` 설정 파일 로드 및 검증.
 
 ### Dispatcher (`src/dispatcher.ts`)
 GitHub Actions 진입점. 이벤트 타입별 라우팅.

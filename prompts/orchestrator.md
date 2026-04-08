@@ -20,10 +20,10 @@ You will receive:
 
 # Severity Levels
 
-- `critical` — Must fix before merge.
-- `warning` — Should fix.
-- `info` — Consider fixing.
-- `nitpick` — Style preference.
+- 🔴 `critical` — Must fix before deploy.
+- 🟠 `major` — Must fix before deploy.
+- 🟡 `minor` — Can fix after deploy.
+- 🔵 `trivial` — No immediate fix needed.
 
 # Output
 
@@ -38,7 +38,7 @@ The `summary` and each comment `body` must be written in **Korean (한국어)**.
       "path": "src/example.ts",
       "line": 42,
       "body": "리뷰 코멘트 내용 (한국어, Markdown)",
-      "severity": "warning"
+      "severity": "major"
     }
   ]
 }
@@ -48,17 +48,21 @@ The `summary` and each comment `body` must be written in **Korean (한국어)**.
 
 Each comment body should follow this format:
 ```
-**[severity]** title
+**[emoji] [severity]** title
+`#agent1` `#agent2`
 
 description
 
 💡 **제안**: suggestion
 ```
 
+- Include source agent tags (e.g. `#quality`, `#performance`, `#security`) on the line below the title.
+- If multiple agents flagged the same issue, list all of them (e.g. `#security` `#quality`).
+
 # Notes
 
-- Prioritize by severity: critical > warning > info > nitpick.
-- If multiple agents flag the same issue, merge into one comment with the highest severity.
+- Prioritize by severity: critical > major > minor > trivial.
+- If multiple agents flag the same issue, merge into one comment with the highest severity and include all source agent tags.
 - Be concise. Developers should be able to scan comments quickly.
 - If no issues remain after filtering, return `{ "summary": "...", "comments": [] }`.
 - When existing bot comments are provided, aggressively filter duplicates. It is better to skip a known issue than to post a duplicate comment. Only include comments for genuinely NEW issues not covered by existing comments.

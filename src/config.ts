@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import yaml from 'js-yaml';
 import type { AgentConfig, AppConfig } from './types.js';
 
-const CONFIG_FILENAME = '.ai-review.yml';
+const CONFIG_FILENAME = 'ai-review-agents.yml';
 
 const VALID_PROVIDERS = ['kimi', 'anthropic', 'google'] as const;
 
@@ -131,6 +131,9 @@ export function loadConfig(configPath?: string): AppConfig {
 }
 
 export function getAiReviewDir(): string {
+  if (process.env.GITHUB_ACTION_PATH) {
+    return resolve(process.env.GITHUB_ACTION_PATH);
+  }
   const workspace = process.env.GITHUB_WORKSPACE || process.cwd();
   return resolve(workspace, '.ai-review');
 }

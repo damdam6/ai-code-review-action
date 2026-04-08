@@ -10,19 +10,24 @@ import { formatDiffForLLM, parseJsonResponse, sanitizeMarkdown } from './reviewe
 
 const SEVERITY_PRIORITY: Record<Severity, number> = {
   critical: 0,
-  warning: 1,
-  info: 2,
-  nitpick: 3,
+  major: 1,
+  minor: 2,
+  trivial: 3,
 };
 
-const limitComments = (comments: ReviewComment[], max: number): { kept: ReviewComment[]; filtered: number } => {
-  if (comments.length <= max) {
-    return { kept: comments, filtered: 0 };
-  }
-  return {
-    kept: comments.slice(0, max),
-    filtered: comments.length - max,
-  };
+const limitComments = (
+  comments: { comment: ReviewComment; severity: Severity }[],
+  max: number
+): { kept: ReviewComment[]; filtered: number } => {
+  // critical/major는 max 제한에서 제외 — 항상 포함
+  const mustKeep = comments.filter(c => c.severity === 'critical' || c.severity === 'major');
+  const rest = comments.filter(c => c.severity !== 'critical' && c.severity !== 'major');
+
+  const remaining = Math.max(0, max - mustKeep.length);
+  const kept = [...mustKeep.map(c => c.comment), ...rest.slice(0, remaining).map(c => c.comment)];
+  const filtered = comments.length - kept.length;
+
+  return { kept, filtered };
 };
 
 interface RawComment {
@@ -38,7 +43,7 @@ interface RawOrchestratorOutput {
   comments: RawComment[];
 }
 
-const VALID_SEVERITIES = new Set<string>(['critical', 'warning', 'info', 'nitpick']);
+const VALID_SEVERITIES = new Set<string>(['critical', 'major', 'minor', 'trivial']);
 const VALID_SIDES = new Set<string>(['LEFT', 'RIGHT']);
 
 const isValidComment = (c: unknown): c is RawComment => {
@@ -92,7 +97,7 @@ export const runOrchestrator = async (
       return {
         summary: 'Failed to generate review summary.',
         comments: [],
-        stats: { total: 0, critical: 0, warning: 0, info: 0, filtered: 0 },
+        stats: { total: 0, critical: 0, major: 0, minor: 0, filtered: 0 },
       };
     }
 
@@ -109,7 +114,10 @@ export const runOrchestrator = async (
     );
 
     const { kept, filtered } = limitComments(
-      sorted.map((c) => ({ path: c.path, line: c.line, body: c.body, side: c.side })),
+      sorted.map((c) => ({
+        comment: { path: c.path, line: c.line, body: c.body, side: c.side },
+        severity: c.severity,
+      })),
       maxComments
     );
 
@@ -117,8 +125,8 @@ export const runOrchestrator = async (
     const stats = {
       total: sorted.length,
       critical: sorted.filter((c) => c.severity === 'critical').length,
-      warning: sorted.filter((c) => c.severity === 'warning').length,
-      info: sorted.filter((c) => c.severity === 'info').length,
+      major: sorted.filter((c) => c.severity === 'major').length,
+      minor: sorted.filter((c) => c.severity === 'minor').length,
       filtered,
     };
 
@@ -132,7 +140,7 @@ export const runOrchestrator = async (
     return {
       summary: 'Failed to generate review summary.',
       comments: [],
-      stats: { total: 0, critical: 0, warning: 0, info: 0, filtered: 0 },
+      stats: { total: 0, critical: 0, major: 0, minor: 0, filtered: 0 },
     };
   }
 };

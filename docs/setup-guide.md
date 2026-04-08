@@ -23,9 +23,9 @@ gh secret set GOOGLE_API_KEY --body "your-api-key"
 2. "New repository secret" 클릭
 3. Name에 `KIMI_API_KEY` 등 입력, Secret에 API 키 입력
 
-> 사용하지 않는 provider의 키는 등록하지 않아도 됩니다. `.ai-review.yml`에서 해당 provider를 사용하는 에이전트가 없으면 해당 키는 불필요합니다.
+> 사용하지 않는 provider의 키는 등록하지 않아도 됩니다. `ai-review-agents.yml`에서 해당 provider를 사용하는 에이전트가 없으면 해당 키는 불필요합니다.
 
-## .ai-review.yml 전체 레퍼런스
+## ai-review-agents.yml 전체 레퍼런스
 
 ### agents 섹션
 

@@ -17,10 +17,10 @@ Review the provided code diff and identify code quality issues.
 
 # Severity Levels
 
-- `critical` — Must fix before merge. Likely to cause bugs or major maintainability issues.
-- `warning` — Should fix. Notable quality concern.
-- `info` — Consider fixing. Minor improvement opportunity.
-- `nitpick` — Style preference. Optional.
+- 🔴 `critical` — Must fix before deploy. Likely to cause bugs or major maintainability issues.
+- 🟠 `major` — Must fix before deploy. Notable quality concern.
+- 🟡 `minor` — Can fix after deploy. Minor improvement opportunity.
+- 🔵 `trivial` — No immediate fix needed. Nice-to-have suggestion.
 
 # Output
 
@@ -33,7 +33,7 @@ All `title`, `description`, and `suggestion` fields must be written in **Korean 
     {
       "file": "src/example.ts",
       "line": 42,
-      "severity": "warning",
+      "severity": "major",
       "category": "quality",
       "title": "이슈 제목",
       "description": "문제에 대한 설명",

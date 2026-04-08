@@ -30,7 +30,7 @@ export interface DiffChunk {
 // Review Agent Output
 // ============================================
 
-export type Severity = 'critical' | 'warning' | 'info' | 'nitpick';
+export type Severity = 'critical' | 'major' | 'minor' | 'trivial';
 export type Category = 'quality' | 'performance' | 'security';
 
 export interface Issue {
@@ -69,8 +69,8 @@ export interface OrchestratorInput {
 export interface ReviewStats {
   total: number;
   critical: number;
-  warning: number;
-  info: number;
+  major: number;
+  minor: number;
   filtered: number;
 }
 

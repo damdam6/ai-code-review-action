@@ -1,0 +1,28 @@
+name: 'AI Code Review'
+description: 'Multi-agent AI code review for GitHub PRs'
+
+inputs:
+  anthropic-api-key:
+    description: 'Anthropic API key'
+    required: false
+  google-api-key:
+    description: 'Google API key'
+    required: false
+  kimi-api-key:
+    description: 'Kimi API key'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - run: |
+        if [ -n "$ANTHROPIC_API_KEY" ]; then echo "::add-mask::$ANTHROPIC_API_KEY"; fi
+        if [ -n "$GOOGLE_API_KEY" ]; then echo "::add-mask::$GOOGLE_API_KEY"; fi
+        if [ -n "$KIMI_API_KEY" ]; then echo "::add-mask::$KIMI_API_KEY"; fi
+        node ${{ github.action_path }}/dist/index.js
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+        ANTHROPIC_API_KEY: ${{ inputs.anthropic-api-key }}
+        GOOGLE_API_KEY: ${{ inputs.google-api-key }}
+        KIMI_API_KEY: ${{ inputs.kimi-api-key }}

@@ -1,0 +1,12 @@
+node_modules/
+.build/
+
+# tsc outputs in dist (keep only ncc bundle)
+dist/agents/
+dist/github/
+dist/providers/
+dist/*.d.ts
+dist/*.js.map
+dist/config.js
+dist/dispatcher.js
+dist/types.js

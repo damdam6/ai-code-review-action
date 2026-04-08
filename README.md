@@ -22,13 +22,9 @@ Event Dispatcher (이벤트 분류 + 라우팅)
 
 ## 빠른 시작
 
-### 1. `.ai-review/` 디렉토리를 레포에 추가
+### 1. `ai-review-agents.yml` 설정 파일 작성
 
-이 디렉토리 전체를 프로젝트 루트에 복사합니다.
-
-### 2. `.ai-review.yml` 설정 파일 작성
-
-프로젝트 루트에 `.ai-review.yml`을 생성합니다:
+프로젝트 루트에 `ai-review-agents.yml`을 생성합니다 (`templates/ai-review-agents.yml` 참고):
 
 ```yaml
 agents:
@@ -66,7 +62,7 @@ options:
     - "dist/**"
 ```
 
-### 3. GitHub Secrets 등록
+### 2. GitHub Secrets 등록
 
 ```bash
 gh secret set KIMI_API_KEY --body "your-kimi-api-key"
@@ -74,11 +70,11 @@ gh secret set ANTHROPIC_API_KEY --body "your-anthropic-api-key"
 gh secret set GOOGLE_API_KEY --body "your-google-api-key"
 ```
 
-### 4. GitHub Actions 워크플로우 추가
+### 3. GitHub Actions 워크플로우 추가
 
-`.github/workflows/ai-review.yml`을 프로젝트에 포함합니다 (이미 포함되어 있음).
+`templates/sample-workflow.yml`을 `.github/workflows/ai-review.yml`로 복사합니다.
 
-### 5. PR 열어서 테스트
+### 4. PR 열어서 테스트
 
 PR을 열면 자동으로 AI 리뷰가 실행됩니다.
 
