@@ -1,9 +1,7 @@
 import type { LLMChatParams, LLMProvider } from "../types.js";
-import { createKimi } from "./kimi.js";
 import { createAnthropic } from "./anthropic.js";
 import { createGoogle } from "./google.js";
-import { createDeepseek } from "./deepseek.js";
-import { createOpenAI } from "./openai.js";
+import { createOpenAICompatible } from "./openai-compatible.js";
 
 const MAX_RETRIES = 3;
 const BASE_DELAY_MS = 1000;
@@ -74,15 +72,15 @@ export const createProvider = (
 ): LLMProvider => {
   switch (provider) {
     case "kimi":
-      return createKimi(apiKey);
+      return createOpenAICompatible(apiKey, { name: "Kimi", baseURL: "https://api.moonshot.ai/v1" });
+    case "deepseek":
+      return createOpenAICompatible(apiKey, { name: "DeepSeek", baseURL: "https://api.deepseek.com" });
+    case "openai":
+      return createOpenAICompatible(apiKey, { name: "OpenAI", useMaxCompletionTokens: true });
     case "anthropic":
       return createAnthropic(apiKey);
     case "google":
       return createGoogle(apiKey);
-    case "deepseek":
-      return createDeepseek(apiKey);
-    case "openai":
-      return createOpenAI(apiKey);
     default:
       throw new Error(`Unknown provider: ${provider}`);
   }
