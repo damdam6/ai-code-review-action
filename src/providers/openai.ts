@@ -18,7 +18,7 @@ export const createOpenAI = (apiKey: string): LLMProvider => {
           { role: 'user', content: params.userMessage },
         ],
         temperature: params.temperature ?? 0.3,
-        max_tokens: params.maxTokens ?? 4096,
+        max_completion_tokens: params.maxTokens ?? 4096,
       });
 
       const content = response.choices[0]?.message?.content;
