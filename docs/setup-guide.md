@@ -15,6 +15,12 @@ gh secret set ANTHROPIC_API_KEY --body "your-api-key"
 
 # Google
 gh secret set GOOGLE_API_KEY --body "your-api-key"
+
+# DeepSeek
+gh secret set DEEPSEEK_API_KEY --body "your-api-key"
+
+# OpenAI
+gh secret set OPENAI_API_KEY --body "your-api-key"
 ```
 
 ### 웹에서 등록
@@ -34,9 +40,11 @@ gh secret set GOOGLE_API_KEY --body "your-api-key"
 ```yaml
 agents:
   <agent_name>:
-    provider: kimi | anthropic | google    # 필수
+    provider: kimi | anthropic | google | deepseek | openai  # 필수
     model: <model_id>                      # 필수
     prompt_file: <path>                    # 필수 (prompts/ 기준 상대경로)
+    temperature: <0.0~2.0>                 # 선택, 기본 0.3
+    max_tokens: <number>                   # 선택, 기본 4096
     confidence_threshold: <0.0~1.0>        # resolver 전용, 기본 0.8
 ```
 
@@ -72,23 +80,6 @@ options:
     - "dist/**"
     - "node_modules/**"
 ```
-
-## 에이전트별 모델 추천
-
-| 에이전트 | 추천 모델 | Provider | 비용 | 성능 | 이유 |
-|---------|----------|----------|------|------|------|
-| Quality | claude-sonnet-4-6 | Anthropic | 중 | 높음 | 코드 구조 이해에 강함 |
-| Performance | kimi-k2.5 | Kimi | 낮음 | 중 | 256K 컨텍스트로 대형 diff 처리 |
-| Security | claude-opus-4-6 | Anthropic | 높음 | 최고 | 보안은 정확도가 중요 |
-| Orchestrator | gemini-2.5-flash | Google | 낮음 | 중 | 병합/필터링은 가벼운 모델로 충분 |
-| Resolver | kimi-k2.5 | Kimi | 낮음 | 중 | 단순 비교 판정 |
-| Responder | claude-sonnet-4-6 | Anthropic | 중 | 높음 | 자연어 답변 품질 |
-
-### 비용 절감 팁
-
-- `max_comments_per_review`를 줄이면 Orchestrator 출력이 짧아져 토큰 절약
-- `exclude_files`에 자동 생성 파일(`.generated.*`, `dist/**`)을 추가하면 불필요한 LLM 호출 감소
-- Performance/Resolver처럼 단순한 작업에는 저렴한 모델 사용
 
 ## 트러블슈팅
 

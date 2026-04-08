@@ -46,9 +46,11 @@ GitHub webhook events
 ## 모듈 구조
 
 ### Providers (`src/providers/`)
-LLM API 추상화 레이어. Kimi (Moonshot AI), Anthropic, Google을 공통 인터페이스로 래핑.
-- `base.ts` - 추상 클래스 + retry 로직 + ProviderFactory
-- `kimi.ts` / `anthropic.ts` / `google.ts` - 각 SDK 래퍼
+LLM API 추상화 레이어. Anthropic, Google, Kimi, DeepSeek, OpenAI를 공통 인터페이스로 래핑.
+- `base.ts` - Provider Factory + retry 로직 + timeout 처리
+- `anthropic.ts` - Anthropic SDK 래퍼
+- `google.ts` - Google Generative AI SDK 래퍼
+- `openai-compatible.ts` - OpenAI SDK 호환 래퍼 (Kimi, DeepSeek, OpenAI를 baseURL 분기로 처리)
 
 ### GitHub (`src/github/`)
 GitHub API 연동 모듈.
