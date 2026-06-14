@@ -12,14 +12,14 @@ const mockDiff: DiffChunk[] = [
 
 const qualityResponse = JSON.stringify({
   issues: [
-    { file: 'src/app.ts', line: 1, severity: 'warning', category: 'quality', title: '네이밍', description: '변수명 불명확', suggestion: '의미있는 이름 사용' },
-    { file: 'src/utils.ts', line: 1, severity: 'info', category: 'quality', title: '함수 구조', description: '빈 함수', suggestion: '구현 추가' },
+    { file: 'src/app.ts', line: 1, severity: 'major', category: 'quality', title: '네이밍', description: '변수명 불명확', suggestion: '의미있는 이름 사용' },
+    { file: 'src/utils.ts', line: 1, severity: 'minor', category: 'quality', title: '함수 구조', description: '빈 함수', suggestion: '구현 추가' },
   ],
 });
 
 const performanceResponse = JSON.stringify({
   issues: [
-    { file: 'src/app.ts', line: 1, severity: 'info', category: 'performance', title: '불필요 할당', description: '사용되지 않는 변수', suggestion: '제거' },
+    { file: 'src/app.ts', line: 1, severity: 'minor', category: 'performance', title: '불필요 할당', description: '사용되지 않는 변수', suggestion: '제거' },
   ],
 });
 
@@ -28,8 +28,8 @@ const securityResponse = JSON.stringify({ issues: [] });
 const orchestratorResponse = JSON.stringify({
   summary: '## 리뷰 요약\n2개 파일에서 2개 이슈 발견',
   comments: [
-    { path: 'src/app.ts', line: 1, body: '**[warning]** 변수명 불명확', severity: 'warning' },
-    { path: 'src/utils.ts', line: 1, body: '**[info]** 빈 함수', severity: 'info' },
+    { path: 'src/app.ts', line: 1, body: '**[major]** 변수명 불명확', severity: 'major' },
+    { path: 'src/utils.ts', line: 1, body: '**[minor]** 빈 함수', severity: 'minor' },
   ],
 });
 

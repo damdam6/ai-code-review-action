@@ -17,7 +17,9 @@ export const createAnthropic = (apiKey: string): LLMProvider => {
         messages: [
           { role: 'user', content: params.userMessage },
         ],
-        temperature: params.temperature ?? 0.3,
+        // temperature는 명시적으로 설정된 경우에만 전달 — Opus 4.7+ 등 일부 모델은
+        // temperature 파라미터를 지원하지 않아 전달 시 400 에러가 발생함
+        ...(params.temperature !== undefined && { temperature: params.temperature }),
         max_tokens: params.maxTokens ?? 4096,
       });
 

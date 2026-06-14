@@ -33,7 +33,9 @@ export const createOpenAICompatible = (
           { role: 'system', content: params.systemPrompt },
           { role: 'user', content: params.userMessage },
         ],
-        temperature: params.temperature ?? 0.3,
+        // temperature는 명시적으로 설정된 경우에만 전달 — deepseek-reasoner, gpt-5 등
+        // 일부 reasoning 모델은 temperature를 지원하지 않아 전달 시 에러가 발생함
+        ...(params.temperature !== undefined && { temperature: params.temperature }),
         ...tokenParam,
       });
 

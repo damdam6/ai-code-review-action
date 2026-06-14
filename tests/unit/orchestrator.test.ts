@@ -4,7 +4,7 @@ import type { LLMProvider, OrchestratorInput } from '../../src/types.js';
 
 const mockInput: OrchestratorInput = {
   diff: [{ filename: 'src/app.ts', status: 'modified', patch: '+line', additions: 1, deletions: 0 }],
-  qualityIssues: [{ file: 'src/app.ts', line: 1, severity: 'warning', category: 'quality', title: 't', description: 'd', suggestion: 's' }],
+  qualityIssues: [{ file: 'src/app.ts', line: 1, severity: 'major', category: 'quality', title: 't', description: 'd', suggestion: 's' }],
   performanceIssues: [],
   securityIssues: [{ file: 'src/app.ts', line: 2, severity: 'critical', category: 'security', title: 't2', description: 'd2', suggestion: 's2' }],
 };
@@ -18,7 +18,7 @@ describe('runOrchestrator', () => {
     const response = JSON.stringify({
       summary: 'PR 요약',
       comments: [
-        { path: 'src/app.ts', line: 1, body: '코멘트1', severity: 'warning' },
+        { path: 'src/app.ts', line: 1, body: '코멘트1', severity: 'major' },
         { path: 'src/app.ts', line: 2, body: '코멘트2', severity: 'critical' },
       ],
     });
@@ -33,9 +33,9 @@ describe('runOrchestrator', () => {
     const response = JSON.stringify({
       summary: '요약',
       comments: [
-        { path: 'a.ts', line: 1, body: 'info', severity: 'info' },
+        { path: 'a.ts', line: 1, body: 'minor', severity: 'minor' },
         { path: 'a.ts', line: 2, body: 'critical', severity: 'critical' },
-        { path: 'a.ts', line: 3, body: 'warning', severity: 'warning' },
+        { path: 'a.ts', line: 3, body: 'major', severity: 'major' },
       ],
     });
 
