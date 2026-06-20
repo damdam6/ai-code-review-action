@@ -9,7 +9,9 @@ on:
     types: [created]
 
 concurrency:
-  group: ai-review-${{ github.event.pull_request.number || github.event.issue.number }}
+  # Separate group per event so a comment-triggered run never cancels an
+  # in-progress PR review (which produced a spurious red check before).
+  group: ai-review-${{ github.event.pull_request.number || github.event.issue.number }}-${{ github.event_name }}
   cancel-in-progress: true
 
 permissions:
@@ -21,8 +23,8 @@ jobs:
   review:
     if: >-
       (github.event_name == 'pull_request' && github.event.pull_request.draft != true) ||
-      (github.event_name == 'issue_comment' && github.event.issue.pull_request) ||
-      (github.event_name == 'pull_request_review_comment')
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request && github.event.comment.user.type != 'Bot') ||
+      (github.event_name == 'pull_request_review_comment' && github.event.comment.user.type != 'Bot')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
