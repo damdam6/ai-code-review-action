@@ -1,0 +1,83 @@
+name: Release
+
+# PR 라벨(release:major / release:minor / release:patch)에 따라
+# 머지 시 자동으로 버전업 → 태그 → 릴리스 → 움직이는 메이저 태그(vN) 이동.
+# 위 라벨이 하나도 없으면 릴리스하지 않고 건너뜀.
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  release:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine bump level from labels
+        id: bump
+        env:
+          LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+        run: |
+          level=""
+          if echo "$LABELS" | grep -q '"release:major"'; then level="major"
+          elif echo "$LABELS" | grep -q '"release:minor"'; then level="minor"
+          elif echo "$LABELS" | grep -q '"release:patch"'; then level="patch"
+          fi
+          if [ -z "$level" ]; then
+            echo "No release label found. Skipping release."
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Bump level: $level"
+            echo "release=true" >> "$GITHUB_OUTPUT"
+            echo "level=$level" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout
+        if: steps.bump.outputs.release == 'true'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        if: steps.bump.outputs.release == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Bump version, tag, and release
+        if: steps.bump.outputs.release == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LEVEL: ${{ steps.bump.outputs.level }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # package.json + package-lock.json 동시 갱신 (커밋/태그는 수동)
+          NEW_VERSION="$(npm version "$LEVEL" --no-git-tag-version)"   # e.g. v1.0.2
+          MAJOR="${NEW_VERSION%%.*}"                                   # e.g. v1
+          echo "New version: $NEW_VERSION (major tag: $MAJOR)"
+
+          git add package.json package-lock.json
+          git commit -m "chore: release $NEW_VERSION (#${PR_NUMBER})"
+
+          # 정확한 버전 태그 + 움직이는 메이저 태그
+          git tag -a "$NEW_VERSION" -m "$NEW_VERSION"
+          git tag -f -a "$MAJOR" -m "$MAJOR — latest ${MAJOR}.x release (currently $NEW_VERSION)"
+
+          git push origin HEAD:main
+          git push origin "$NEW_VERSION"
+          git push -f origin "$MAJOR"
+
+          gh release create "$NEW_VERSION" \
+            --title "$NEW_VERSION" \
+            --generate-notes \
+            --notes "Merged via #${PR_NUMBER}. Moving tag \`${MAJOR}\` now points here."
