@@ -69,6 +69,13 @@ describe('loadConfig', () => {
     expect(() => loadConfig('/fake/path.yml')).toThrow('agents');
   });
 
+  it('accepts zai as a valid provider', () => {
+    const yaml = validYaml.replace('provider: kimi', 'provider: zai');
+    vi.mocked(fs.readFileSync).mockReturnValue(yaml);
+    const config = loadConfig('/fake/path.yml');
+    expect(config.agents.performance.provider).toBe('zai');
+  });
+
   it('throws on invalid provider name', () => {
     const yaml = validYaml.replace('provider: kimi', 'provider: chatgpt');
     vi.mocked(fs.readFileSync).mockReturnValue(yaml);

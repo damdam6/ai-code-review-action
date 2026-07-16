@@ -21,6 +21,9 @@ gh secret set DEEPSEEK_API_KEY --body "your-api-key"
 
 # OpenAI
 gh secret set OPENAI_API_KEY --body "your-api-key"
+
+# z.ai (Zhipu GLM)
+gh secret set ZAI_API_KEY --body "your-api-key"
 ```
 
 ### 웹에서 등록
@@ -40,7 +43,7 @@ gh secret set OPENAI_API_KEY --body "your-api-key"
 ```yaml
 agents:
   <agent_name>:
-    provider: kimi | anthropic | google | deepseek | openai  # 필수
+    provider: kimi | anthropic | google | deepseek | openai | zai  # 필수
     model: <model_id>                      # 필수
     prompt_file: <path>                    # 필수 (prompts/ 기준 상대경로)
     temperature: <0.0~2.0>                 # 선택, 기본 0.3
