@@ -34,6 +34,7 @@ const API_KEY_MAP: Record<string, string> = {
   google: 'GOOGLE_API_KEY',
   deepseek: 'DEEPSEEK_API_KEY',
   openai: 'OPENAI_API_KEY',
+  zai: 'ZAI_API_KEY',
 };
 
 const getApiKey = (provider: string): string => {

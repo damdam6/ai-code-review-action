@@ -45029,7 +45029,7 @@ var jsYaml = {
 
 
 const CONFIG_FILENAME = 'ai-review-agents.yml';
-const VALID_PROVIDERS = ['kimi', 'anthropic', 'google', 'deepseek', 'openai'];
+const VALID_PROVIDERS = ['kimi', 'anthropic', 'google', 'deepseek', 'openai', 'zai'];
 const DEFAULT_OPTIONS = {
     language: 'ko',
     max_comments_per_review: 20,
@@ -58300,6 +58300,8 @@ const createProvider = (provider, apiKey) => {
             return createOpenAICompatible(apiKey, { name: "Kimi", baseURL: "https://api.moonshot.ai/v1" });
         case "deepseek":
             return createOpenAICompatible(apiKey, { name: "DeepSeek", baseURL: "https://api.deepseek.com" });
+        case "zai":
+            return createOpenAICompatible(apiKey, { name: "Z.ai", baseURL: "https://api.z.ai/api/paas/v4" });
         case "openai":
             return createOpenAICompatible(apiKey, { name: "OpenAI", useMaxCompletionTokens: true });
         case "anthropic":
@@ -61292,6 +61294,7 @@ const API_KEY_MAP = {
     google: 'GOOGLE_API_KEY',
     deepseek: 'DEEPSEEK_API_KEY',
     openai: 'OPENAI_API_KEY',
+    zai: 'ZAI_API_KEY',
 };
 const getApiKey = (provider) => {
     const envName = API_KEY_MAP[provider];
