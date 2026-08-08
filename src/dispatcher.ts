@@ -35,6 +35,7 @@ const API_KEY_MAP: Record<string, string> = {
   deepseek: 'DEEPSEEK_API_KEY',
   openai: 'OPENAI_API_KEY',
   zai: 'ZAI_API_KEY',
+  nvidia: 'NVIDIA_API_KEY',
 };
 
 const getApiKey = (provider: string): string => {

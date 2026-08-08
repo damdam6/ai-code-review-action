@@ -5,7 +5,7 @@ import type { AgentConfig, AppConfig } from './types.js';
 
 const CONFIG_FILENAME = 'ai-review-agents.yml';
 
-const VALID_PROVIDERS = ['kimi', 'anthropic', 'google', 'deepseek', 'openai', 'zai'] as const;
+const VALID_PROVIDERS = ['kimi', 'anthropic', 'google', 'deepseek', 'openai', 'zai', 'nvidia'] as const;
 
 const DEFAULT_OPTIONS = {
   language: 'ko',

@@ -24,6 +24,9 @@ gh secret set OPENAI_API_KEY --body "your-api-key"
 
 # z.ai (Zhipu GLM)
 gh secret set ZAI_API_KEY --body "your-api-key"
+
+# NVIDIA NIM (build.nvidia.com)
+gh secret set NVIDIA_API_KEY --body "your-api-key"
 ```
 
 ### 웹에서 등록
@@ -43,7 +46,7 @@ gh secret set ZAI_API_KEY --body "your-api-key"
 ```yaml
 agents:
   <agent_name>:
-    provider: kimi | anthropic | google | deepseek | openai | zai  # 필수
+    provider: kimi | anthropic | google | deepseek | openai | zai | nvidia  # 필수
     model: <model_id>                      # 필수
     prompt_file: <path>                    # 필수 (prompts/ 기준 상대경로)
     temperature: <0.0~2.0>                 # 선택, 기본 0.3
@@ -59,6 +62,32 @@ agents:
 | `orchestrator` | 3개 결과 병합, 중복 제거, false positive 필터링 | PR opened/reopened/push |
 | `resolver` | 이전 코멘트 해결 여부 자동 판정 | push (synchronize) |
 | `responder` | @bot 멘션에 대한 질문 답변 | 코멘트 생성 |
+
+### NVIDIA NIM 모델 ID 형식
+
+NVIDIA NIM(provider: `nvidia`)은 다른 provider와 달리 모델 ID가 `네임스페이스/모델명` 형식입니다.
+
+```yaml
+agents:
+  quality:
+    provider: nvidia
+    model: meta/llama-3.3-70b-instruct   # "llama-3.3-70b-instruct"가 아님
+    prompt_file: prompts/quality.md
+```
+
+예시 모델 (2026-08 기준 카탈로그에서 확인):
+
+| 모델 ID | 비고 |
+|---------|------|
+| `meta/llama-3.3-70b-instruct` | 범용 instruct |
+| `nvidia/llama-3.1-nemotron-70b-instruct` | NVIDIA 튜닝 instruct |
+| `nvidia/llama-3.3-nemotron-super-49b-v1.5` | reasoning 계열 |
+| `openai/gpt-oss-120b` | 오픈웨이트 GPT |
+| `deepseek-ai/deepseek-v4-flash-0731` | DeepSeek 계열 |
+
+- API 키 발급과 전체 모델 목록은 [build.nvidia.com](https://build.nvidia.com)에서 확인합니다.
+- 무료 티어는 분당 요청 수 제한이 낮으므로, 여러 에이전트를 모두 nvidia로 지정하면 429가 발생할 수 있습니다(자동 재시도 3회).
+- reasoning 계열 모델은 사고 과정(`<think>`)이 응답에 섞일 수 있어 리뷰 용도로는 instruct 계열을 권장합니다.
 
 ### triggers 섹션
 
