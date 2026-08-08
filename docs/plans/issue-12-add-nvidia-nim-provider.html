@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>#12 NVIDIA NIM(build.nvidia.com) 무료 AI API를 리뷰 provider로 추가 — 작업 플랜</title>
+<style>
+  :root {
+    --bg: #f7f7f8; --card: #ffffff; --ink: #1c1c1e; --muted: #6e6e73;
+    --line: #e3e3e6; --accent: #3b6ef5; --accent-soft: #e8eefe;
+    --ok: #2e8b57; --warn: #b25e09; --code-bg: #f0f0f2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161618; --card: #202024; --ink: #ececf0; --muted: #98989f;
+      --line: #333338; --accent: #7a9bff; --accent-soft: #26304a;
+      --ok: #58c088; --warn: #e0a35c; --code-bg: #2a2a2f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 40px 20px 80px; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+                 "Segoe UI", "Noto Sans KR", sans-serif;
+    line-height: 1.65;
+  }
+  main { max-width: 860px; margin: 0 auto; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 0.86em;
+    background: var(--code-bg); border-radius: 5px; padding: 2px 6px;
+  }
+  header { margin-bottom: 28px; }
+  .issue-chip {
+    display: inline-block; font-weight: 700; color: var(--accent);
+    background: var(--accent-soft); border-radius: 999px;
+    padding: 3px 14px; font-size: 0.95rem; margin-bottom: 10px;
+  }
+  .type-chip {
+    display: inline-block; font-weight: 600; color: var(--muted);
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 3px 12px; font-size: 0.8rem; margin-left: 8px; vertical-align: 2px;
+  }
+  h1 { font-size: 1.7rem; margin: 0 0 14px; letter-spacing: -0.02em; }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 6px 22px;
+    color: var(--muted); font-size: 0.87rem;
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+  section.card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 24px 28px; margin-top: 18px;
+  }
+  h2 {
+    font-size: 1.05rem; margin: 0 0 14px; letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  h2 .no {
+    color: var(--accent); font-size: 0.8rem; font-weight: 700;
+    border: 1.5px solid var(--accent); border-radius: 6px; padding: 0 6px;
+  }
+  ul, ol { margin: 0; padding-left: 22px; }
+  li { margin: 6px 0; }
+  .steps { list-style: none; padding: 0; counter-reset: step; }
+  .steps li {
+    counter-increment: step; position: relative; padding: 10px 0 10px 44px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .steps li:last-child { border-bottom: none; }
+  .steps li::before {
+    content: counter(step); position: absolute; left: 0; top: 10px;
+    width: 28px; height: 28px; border-radius: 8px; background: var(--accent-soft);
+    color: var(--accent); font-weight: 700; font-size: 0.85rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .steps .files { display: block; margin-top: 4px; font-size: 0.85rem; color: var(--muted); }
+  .steps li.done::before { content: "✓"; background: var(--ok); color: #fff; }
+  .steps .note { display: block; margin-top: 4px; font-size: 0.85rem; color: var(--ok); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 0.82rem; }
+  .done-list { list-style: none; padding: 0; }
+  .done-list li { padding-left: 30px; position: relative; }
+  .done-list li::before {
+    content: ""; position: absolute; left: 2px; top: 7px; width: 15px; height: 15px;
+    border: 2px solid var(--ok); border-radius: 5px;
+  }
+  .scroll-x { overflow-x: auto; }
+  footer { margin-top: 30px; color: var(--muted); font-size: 0.8rem; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <span class="issue-chip"><a href="https://github.com/damdam6/ai-code-review-action/issues/12">#12</a></span><span class="type-chip">기능 개선</span>
+    <h1>NVIDIA NIM(build.nvidia.com) 무료 AI API를 리뷰 provider로 추가</h1>
+    <div class="meta">
+      <span><b>damdam6/ai-code-review-action</b></span>
+      <span>브랜치 <b><code>feat/12-add-nvidia-nim-provider</code></b> ← <code>main</code></span>
+      <span>라벨 <b>enhancement</b></span>
+      <span>2026-08-08</span>
+    </div>
+  </header>
+
+  <section class="card">
+    <h2><span class="no">1</span>요약</h2>
+    <p>NVIDIA NIM의 OpenAI 호환 API(<code>https://integrate.api.nvidia.com/v1</code>)를 7번째 리뷰 provider <code>nvidia</code>로 추가한다. 최근 z.ai(GLM) provider를 추가한 커밋 <code>3377a19</code>(#9)과 완전히 동일한 11개 파일 패턴을 따르며, 신규 provider 파일 없이 기존 <code>createOpenAICompatible</code> 팩토리에 baseURL case 하나를 추가하는 작업이다. 엔드포인트는 플래너가 라이브로 검증 완료(<code>/v1/models</code>가 200 응답), 문서에 넣을 예시 모델 ID도 실제 카탈로그에서 확인했다.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="no">2</span>현황 분석</h2>
+    <p>provider 등록은 5개 지점에 분산되어 있고, 현재 어디에도 <code>nvidia</code>가 없다:</p>
+    <ul>
+      <li><b>타입/검증</b> — <code>src/providers/base.ts:67</code>의 <code>ProviderName</code> 유니온, <code>src/types.ts:124</code>의 <code>AgentConfig.provider</code> 유니온, <code>src/config.ts:8</code>의 <code>VALID_PROVIDERS</code>(검증 실패 시 <code>src/config.ts:56</code>에서 "Must be one of" 에러).</li>
+      <li><b>팩토리</b> — <code>src/providers/base.ts:69-89</code>의 <code>createProvider</code> switch. kimi/deepseek/zai는 <code>createOpenAICompatible</code>(<code>src/providers/openai-compatible.ts:11-47</code>)에 baseURL만 넘긴다. 이 팩토리는 openai SDK로 <code>chat.completions.create</code>를 호출하며 <code>max_tokens</code> 기본 4096, 타임아웃 180초 + 429/timeout 재시도 3회(<code>src/providers/base.ts:12-23</code>)를 이미 갖추고 있다.</li>
+      <li><b>API 키 배선</b> — <code>src/dispatcher.ts:31-38</code>의 <code>API_KEY_MAP</code>이 provider명 → env 변수명을 매핑. <code>action.yml</code>이 <code>inputs.*-api-key</code> → <code>::add-mask::</code> → env로 전달하고, <code>.github/workflows/workflow.yml</code>·<code>templates/workflow.yml</code>이 <code>secrets.*</code>를 입력에 연결.</li>
+      <li><b>모델 지정</b> — 모델은 <code>ai-review-agents.yml</code>의 자유 문자열로 provider와 분리되어 있어(<code>params.model</code>이 그대로 전달, <code>src/providers/openai-compatible.ts:31</code>) 모델 관련 코드 작업은 없다. 이슈 메모와 일치.</li>
+      <li><b>빌드</b> — <code>npm run build</code>(tsc + ncc)로 <code>dist/index.js</code>를 커밋하는 방식. zai 커밋에서 dist diff는 소스 변경분 5라인뿐이었다.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2><span class="no">3</span>설계</h2>
+    <p><b>채택안: z.ai 패턴 그대로 복제.</b> <code>createProvider</code>에 <code>case "nvidia"</code>를 추가해 <code>createOpenAICompatible(apiKey, { name: "NVIDIA", baseURL: "https://integrate.api.nvidia.com/v1" })</code>를 반환한다. NIM은 표준 <code>max_tokens</code>를 지원하므로 <code>useMaxCompletionTokens</code>는 쓰지 않는다(OpenAI case 전용). env 변수는 <code>NVIDIA_API_KEY</code>, action 입력은 <code>nvidia-api-key</code>.</p>
+    <p><b>엔드포인트 검증(이슈의 플래너 확인 항목):</b> <code>https://integrate.api.nvidia.com/v1/models</code>가 인증 없이 200을 반환하며 OpenAI 호환 모델 목록을 제공함을 2026-08-08에 확인했다. 단, 이슈 본문의 예시 중 <code>meta/llama-3.1-405b-instruct</code>와 <code>deepseek-ai/deepseek-r1</code>은 현재 카탈로그에 없으므로, 문서에는 라이브 검증된 ID를 쓴다: <code>meta/llama-3.3-70b-instruct</code>, <code>nvidia/llama-3.1-nemotron-70b-instruct</code>, <code>nvidia/llama-3.3-nemotron-super-49b-v1.5</code>, <code>openai/gpt-oss-120b</code>, <code>deepseek-ai/deepseek-v4-flash-0731</code>.</p>
+    <p><b>기각안:</b> ① 별도 <code>src/providers/nvidia.ts</code> 파일 — OpenAI 호환이라 기존 팩토리로 충분, 불필요한 분기. ② NVIDIA 모델 ID 화이트리스트 검증 — 모델을 provider와 분리된 자유 문자열로 두는 기존 설계와 충돌하고 카탈로그 변동에 취약. 문서로만 안내한다.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="no">4</span>작업 단계</h2>
+    <ol class="steps">
+      <li class="done"><code>ProviderName</code> 유니온에 <code>"nvidia"</code> 추가(67행), <code>createProvider</code> switch에 <code>case "nvidia"</code> — baseURL <code>https://integrate.api.nvidia.com/v1</code>, name <code>NVIDIA</code> (zai case 옆 78행 부근)
+        <span class="files"><code>src/providers/base.ts</code></span>
+      </li>
+      <li class="done"><code>VALID_PROVIDERS</code>(8행)와 <code>AgentConfig.provider</code> 유니온(124행)에 <code>nvidia</code> 추가
+        <span class="files"><code>src/config.ts</code>, <code>src/types.ts</code></span>
+      </li>
+      <li class="done"><code>API_KEY_MAP</code>에 <code>nvidia: 'NVIDIA_API_KEY'</code> 추가(37행 zai 다음)
+        <span class="files"><code>src/dispatcher.ts</code></span>
+      </li>
+      <li class="done"><code>nvidia-api-key</code> 입력 정의 + <code>::add-mask::$NVIDIA_API_KEY</code> 라인 + <code>NVIDIA_API_KEY: ${{ inputs.nvidia-api-key }}</code> env 배선 — 기존 6개 키와 같은 3개 지점
+        <span class="files"><code>action.yml</code></span>
+      </li>
+      <li class="done">두 워크플로에 <code>nvidia-api-key: ${{ secrets.NVIDIA_API_KEY }}</code> 입력 배선
+        <span class="files"><code>.github/workflows/workflow.yml</code>, <code>templates/workflow.yml</code></span>
+      </li>
+      <li class="done">README: secrets 등록 예시(76행 뒤)에 <code>gh secret set NVIDIA_API_KEY</code> 추가, provider 표(106행 뒤)에 NVIDIA NIM 행 추가(예시 모델은 검증된 ID, "OpenAI 호환" 표기)
+        <span class="files"><code>README.md</code></span>
+      </li>
+      <li class="done">setup-guide: secrets 블록에 NVIDIA 추가, provider 유니온 표기(46행)에 <code>nvidia</code> 추가, 그리고 <b>NVIDIA 모델 ID 형식 섹션 신설</b> — <code>네임스페이스/모델명</code> 형식 설명, 검증된 예시 모델 목록, build.nvidia.com에서 키 발급·모델 탐색 안내, 무료 티어 rate limit 주의
+        <span class="files"><code>docs/setup-guide.md</code></span>
+      </li>
+      <li class="done">zai 테스트(71-77행)와 같은 패턴으로 "accepts nvidia as a valid provider" 테스트 추가
+        <span class="files"><code>tests/unit/config.test.ts</code></span>
+      </li>
+      <li class="done"><code>npm run build</code>로 <code>dist/index.js</code> 재빌드 후 diff가 소스 변경분만인지 확인, <code>npm test</code> 전체 통과 확인, 커밋(repo 스타일: <code>feat: add NVIDIA NIM as a review provider</code>, <code>Closes #12</code>)
+        <span class="files"><code>dist/index.js</code></span>
+        <span class="note">✓ dist diff는 소스 변경분 4줄. 신규 nvidia 테스트 포함 45개 통과. orchestrator 테스트 3개 실패는 stash 후 재실행으로 main에서도 동일하게 실패함을 확인 — 이 이슈와 무관한 기존 실패(별도 이슈 대상).</span>
+      </li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2><span class="no">5</span>리스크</h2>
+    <div class="scroll-x">
+    <table>
+      <thead><tr><th>리스크</th><th>영향</th><th>완화책</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>NIM 무료 티어의 낮은 rate limit(분당 요청 제한)</td>
+          <td>에이전트 다수를 nvidia로 지정하면 429 발생 가능</td>
+          <td><code>src/providers/base.ts:16-17</code>의 기존 재시도 로직이 429를 지수 백오프로 3회 재시도. setup-guide에 무료 티어 주의 문구 명시</td>
+        </tr>
+        <tr>
+          <td>reasoning 계열 모델이 <code>&lt;think&gt;</code> 블록을 응답 본문에 포함</td>
+          <td>리뷰 코멘트에 사고 과정이 그대로 노출될 수 있음</td>
+          <td>코드 변경 없이 문서에서 instruct 계열 모델 사용 권장</td>
+        </tr>
+        <tr>
+          <td>이슈 본문의 예시 모델 일부가 현재 카탈로그에 없음(405b, deepseek-r1)</td>
+          <td>문서를 이슈 그대로 옮기면 사용자가 404 모델 에러를 겪음</td>
+          <td>2026-08-08 라이브 카탈로그에서 검증한 ID로만 문서화(설계 섹션 목록)</td>
+        </tr>
+        <tr>
+          <td><code>dist/index.js</code> 재빌드 diff 오염</td>
+          <td>의존성 변동 시 diff가 커져 리뷰가 어려워짐</td>
+          <td>ncc 버전이 고정돼 있고 zai 커밋에서 5라인만 변경됐음. 빌드 후 diff를 확인하고 소스 변경분 외 diff가 크면 보고</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="no">6</span>테스트 계획</h2>
+    <ul>
+      <li><code>npm test</code> — 신규 "accepts nvidia as a valid provider" 테스트 포함 전체 통과. 기존 invalid-provider 테스트("chatgpt" → throw)가 여전히 통과하는지로 검증 로직 회귀 확인.</li>
+      <li><code>npm run build</code> 후 <code>grep -c "integrate.api.nvidia.com" dist/index.js</code>로 번들에 신규 case가 포함됐는지 확인.</li>
+      <li>API 키 없이도 코드 경로 검증 가능: <code>createProvider("nvidia", "")</code>는 <code>openai-compatible.ts:15-17</code>의 "API key is required for NVIDIA" 에러 경로를 탄다 — 단위 테스트 수준에서 충분. 실 키 스모크 테스트는 키 보유 시 선택 사항.</li>
+      <li>워크플로 배선은 기존 6개 키와 동일 구조의 정적 검토(입력명·env명·secret명 3중 일치)로 확인.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2><span class="no">7</span>완료 조건</h2>
+    <ul class="done-list">
+      <li><code>src/providers/base.ts</code>: <code>ProviderName</code>에 <code>nvidia</code> + baseURL <code>https://integrate.api.nvidia.com/v1</code> case 추가</li>
+      <li><code>src/config.ts</code> <code>VALID_PROVIDERS</code>, <code>src/types.ts</code> <code>AgentConfig.provider</code>에 <code>nvidia</code> 추가</li>
+      <li><code>src/dispatcher.ts</code> <code>API_KEY_MAP</code>에 <code>nvidia: 'NVIDIA_API_KEY'</code> 추가</li>
+      <li><code>action.yml</code>: <code>nvidia-api-key</code> 입력 + <code>::add-mask::</code> + env 배선</li>
+      <li><code>.github/workflows/workflow.yml</code>, <code>templates/workflow.yml</code>에 입력 배선</li>
+      <li><code>README.md</code>, <code>docs/setup-guide.md</code> 문서화</li>
+      <li><code>docs/setup-guide.md</code>에 모델 ID 형식(<code>네임스페이스/모델명</code>)과 검증된 예시 모델 목록 문서화</li>
+      <li><code>tests/unit/config.test.ts</code>에 nvidia provider 검증 테스트 추가</li>
+      <li><code>dist/index.js</code> 재빌드 후 기존 테스트 전체 통과</li>
+    </ul>
+  </section>
+
+  <footer>issue-plan · <a href="https://github.com/damdam6/ai-code-review-action/issues/12">#12</a> · 2026-08-08</footer>
+</main>
+</body>
+</html>
