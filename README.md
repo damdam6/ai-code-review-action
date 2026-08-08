@@ -74,6 +74,7 @@ gh secret set GOOGLE_API_KEY --body "your-google-api-key"
 gh secret set DEEPSEEK_API_KEY --body "your-deepseek-api-key"
 gh secret set OPENAI_API_KEY --body "your-openai-api-key"
 gh secret set ZAI_API_KEY --body "your-zai-api-key"
+gh secret set NVIDIA_API_KEY --body "your-nvidia-api-key"
 ```
 
 ### 3. GitHub Actions 워크플로우 추가
@@ -104,6 +105,7 @@ PR을 열면 자동으로 AI 리뷰가 실행됩니다.
 | DeepSeek | `DEEPSEEK_API_KEY` | deepseek-chat, deepseek-reasoner | OpenAI 호환 |
 | OpenAI | `OPENAI_API_KEY` | gpt-4o, gpt-4o-mini | OpenAI 호환 |
 | z.ai (Zhipu GLM) | `ZAI_API_KEY` | glm-4.6, glm-4.5-air | OpenAI 호환 |
+| NVIDIA NIM | `NVIDIA_API_KEY` | meta/llama-3.3-70b-instruct, openai/gpt-oss-120b | OpenAI 호환, `네임스페이스/모델명` 형식 |
 
 ## 상세 문서
 

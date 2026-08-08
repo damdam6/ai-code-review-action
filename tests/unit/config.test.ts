@@ -76,6 +76,13 @@ describe('loadConfig', () => {
     expect(config.agents.performance.provider).toBe('zai');
   });
 
+  it('accepts nvidia as a valid provider', () => {
+    const yaml = validYaml.replace('provider: kimi', 'provider: nvidia');
+    vi.mocked(fs.readFileSync).mockReturnValue(yaml);
+    const config = loadConfig('/fake/path.yml');
+    expect(config.agents.performance.provider).toBe('nvidia');
+  });
+
   it('throws on invalid provider name', () => {
     const yaml = validYaml.replace('provider: kimi', 'provider: chatgpt');
     vi.mocked(fs.readFileSync).mockReturnValue(yaml);

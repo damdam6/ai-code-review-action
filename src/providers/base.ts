@@ -64,7 +64,7 @@ export const withRetry = (chatFn: ChatFn): ChatFn => {
   };
 };
 
-export type ProviderName = "kimi" | "anthropic" | "google" | "deepseek" | "openai" | "zai";
+export type ProviderName = "kimi" | "anthropic" | "google" | "deepseek" | "openai" | "zai" | "nvidia";
 
 export const createProvider = (
   provider: ProviderName,
@@ -77,6 +77,8 @@ export const createProvider = (
       return createOpenAICompatible(apiKey, { name: "DeepSeek", baseURL: "https://api.deepseek.com" });
     case "zai":
       return createOpenAICompatible(apiKey, { name: "Z.ai", baseURL: "https://api.z.ai/api/paas/v4" });
+    case "nvidia":
+      return createOpenAICompatible(apiKey, { name: "NVIDIA", baseURL: "https://integrate.api.nvidia.com/v1" });
     case "openai":
       return createOpenAICompatible(apiKey, { name: "OpenAI", useMaxCompletionTokens: true });
     case "anthropic":
